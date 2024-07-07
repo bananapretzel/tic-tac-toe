@@ -7,7 +7,8 @@ const gameBoard = (function () {
      [" ", " ", " "]];
      const getTiles = () => tiles;
      const getPlacedTiles = () => placedTiles;
-     return { getTiles, getPlacedTiles };
+     const placeTile = (index, symbol) => placedTiles[index+1] = symbol;
+     return { getTiles, getPlacedTiles, placeTile };
 })();
 
 function createPlayer(name) {
@@ -34,7 +35,7 @@ function consoleDisplayBoard() {
                result += gameBoard.getTiles()[i][j] + " ";
 
           }
-          console.log(result);
+          console.log(result + " " + i);
 
      }
      for (let i = 0; i < gameBoard.getPlacedTiles().length; i++) {
@@ -49,7 +50,7 @@ function consoleDisplayBoard() {
 
 
           }
-          console.log(result);
+          console.log(result + " " + i);
 
      }
 }
@@ -61,6 +62,7 @@ function playGame(playerOne, playerTwo) {
      this.playerTwo = playerTwo;
      startingPlayer = null;
      const diceRoll = Math.floor(Math.random()) * 6;
+     let gameWon = false;
      alert("Rolling a dice to see who goes first");
      if (diceRoll >= 3) {
           alert("Player one is the first to go! They have been designated with X");
@@ -75,6 +77,13 @@ function playGame(playerOne, playerTwo) {
           playerTwo.setSymbol("X");
      }
      consoleDisplayBoard();
-     prompt(`${startingPlayer.name} choose where to place your X`);
+     let choice = prompt(`${startingPlayer.name} choose where to place your X`);
+     gameBoard.placeTile(choice, startingPlayer.getSymbol);
+     consoleDisplayBoard();
+     // while(!gameWon) {
+
+
+     // }
+          
 
 }
