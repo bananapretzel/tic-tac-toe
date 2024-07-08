@@ -1,3 +1,5 @@
+const tiles = document.querySelectorAll(".tile");
+
 const gameBoard = (function () {
      const tiles = [[0, 1, 2],
      [3, 4, 5],
@@ -55,7 +57,7 @@ function consoleDisplayBoard() {
      }
 }
 
-playGame(playerOne, playerTwo);
+//playGame(playerOne, playerTwo);
 
 function playGame(playerOne, playerTwo) {
      this.playerOne = playerOne;
@@ -87,3 +89,14 @@ function playGame(playerOne, playerTwo) {
           
 
 }
+
+
+for (let tile of tiles) {
+     console.log("test");
+     tile.addEventListener("click", function() {
+          tile.textContent = "X";
+          console.log("click");
+     })
+}
+
+console.log(tiles);
