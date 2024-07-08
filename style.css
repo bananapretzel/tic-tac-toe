@@ -9,11 +9,13 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    height: 70vh;
+    height: 80vh;
 }
 
 h1 {
     font-size: 80px;
+    padding: 0px;
+    margin: 0px;
 }
 .game-board {
     display: grid;

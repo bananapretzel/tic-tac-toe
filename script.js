@@ -25,10 +25,8 @@ function createPlayer(name) {
 
 }
 
-const playerOne = createPlayer("Jack");
-const playerTwo = createPlayer("Jill");
-console.log(playerOne);
-console.log(playerTwo);
+
+
 
 function consoleDisplayBoard() {
      for (let i = 0; i < gameBoard.getTiles().length; i++) {
@@ -59,42 +57,32 @@ function consoleDisplayBoard() {
 
 //playGame(playerOne, playerTwo);
 
-function playGame(playerOne, playerTwo) {
-     this.playerOne = playerOne;
-     this.playerTwo = playerTwo;
-     startingPlayer = null;
+const playerOne = createPlayer("Jack");
+const playerTwo = createPlayer("Jill"); 
+playerOne.setSymbol("X");
+playerTwo.setSymbol("O"); 
+let whosTurn = playerOne;
+
+function playGame() {
+
+     let startingPlayer = null;
+     let playersTurn = null;
      const diceRoll = Math.floor(Math.random()) * 6;
      let gameWon = false;
-     alert("Rolling a dice to see who goes first");
-     if (diceRoll >= 3) {
-          alert("Player one is the first to go! They have been designated with X");
-          startingPlayer = playerOne;
-          playerOne.setSymbol("X");
-          playerTwo.setSymbol("O");
-     } else {
-          alert("Player two is the first to go! They have been designated with X");
-
-          startingPlayer = playerTwo;
-          playerOne.setSymbol("O");
-          playerTwo.setSymbol("X");
-     }
-     consoleDisplayBoard();
-     let choice = prompt(`${startingPlayer.name} choose where to place your X`);
-     gameBoard.placeTile(choice, startingPlayer.getSymbol);
-     consoleDisplayBoard();
-     // while(!gameWon) {
-
-
-     // }
-          
+     
 
 }
+
 
 
 for (let tile of tiles) {
      console.log("test");
      tile.addEventListener("click", function() {
-          tile.textContent = "X";
+          if (tile.textContent === "") {
+               tile.textContent = `${whosTurn.getSymbol()}`;
+               whosTurn = whosTurn === playerOne ? playerTwo : playerOne;
+          }
+          
           console.log("click");
      })
 }
