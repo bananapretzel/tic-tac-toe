@@ -5,7 +5,7 @@
 
 body {
     display: flex;
-    background-color: blueviolet;
+    background-color: beige;
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -17,15 +17,20 @@ h1 {
     padding: 0px;
     margin: 0px;
 }
+
+h2 {
+    font-size: 30px;
+    margin-bottom: 45px;
+}
 .game-board {
     display: grid;
-    background-color: cyan;
+    
     grid-template-columns: auto auto auto;
 }
 
 .tile {
     
-    background-color: red;
+    
     height: 200px;
     width: 200px;
     display: grid;
@@ -39,9 +44,9 @@ h1 {
 }
 
 .row-one, .row-two {
-    border-bottom: 5px solid black;
+    border-bottom: 10px solid black;
 }
 
 .col-one, .col-two {
-    border-right: 5px solid black;
+    border-right: 10px solid black;
 }
