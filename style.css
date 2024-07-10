@@ -1,7 +1,12 @@
 
 :root {
-    font-family: Roboto, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: Roboto,  system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
+
+@font-face {
+    font-family: PlaywriteFR;
+    src: url(/fonts/PlaywriteFRModerne-VariableFont_wght.ttf);
+  }
 
 body {
     display: flex;
@@ -9,18 +14,21 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    height: 80vh;
+    height: 95vh;
 }
 
 h1 {
+    font-family: PlaywriteFR;
     font-size: 80px;
     padding: 0px;
     margin: 0px;
 }
 
 h2 {
+    font-family: PlaywriteFR;
     font-size: 30px;
-    margin-bottom: 45px;
+    
+    
 }
 .game-board {
     display: grid;
@@ -29,8 +37,6 @@ h2 {
 }
 
 .tile {
-    
-    
     height: 200px;
     width: 200px;
     display: grid;
@@ -49,4 +55,22 @@ h2 {
 
 .col-one, .col-two {
     border-right: 10px solid black;
+}
+
+button {
+
+
+display: inline-block;
+outline: none;
+cursor: pointer;
+margin:50px;
+font-size: 16px;
+line-height: 20px;
+font-weight: 600;
+border-radius: 8px;
+padding: 14px 24px;
+border: none;
+transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s, -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s;
+background: linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%);
+color: #fff;
 }

@@ -23,7 +23,7 @@ const gameBoard = (function () {
      const placeTile = (position, symbol) => placedTiles[position[0]][position[1]] = `${symbol}`;
      const getDisableClick = () => disableClick;
      const setDisableClick = (bool) => disableClick = bool;
-     const resetBoard = function () {
+     const resetBoard = () => {
           placedTiles[0].fill("_");
           placedTiles[1].fill("_");
           placedTiles[2].fill(" ");
