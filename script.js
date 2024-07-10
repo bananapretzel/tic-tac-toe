@@ -2,7 +2,16 @@ const tiles = document.querySelectorAll(".tile");
 const whosTurnDisplay = document.querySelector("h2");
 const restartBtn = document.querySelector("button");
 
+const playerOne = createPlayer("Player One");
+const playerTwo = createPlayer("Player Two");
+playerOne.setSymbol("X");
+playerTwo.setSymbol("O");
+let whosTurn = playerOne;
+const game = createGame();
+game.playGame();
+
 const gameBoard = (function () {
+     let numTilesPlaced = 0;
      const tiles = [[0, 1, 2],
      [3, 4, 5],
      [6, 7, 8]];
@@ -20,7 +29,9 @@ const gameBoard = (function () {
           placedTiles[1].fill("_");
           placedTiles[2].fill(" ");
      }
-     return { getTiles, getPlacedTiles, placeTile, setDisableClick, getDisableClick, resetBoard };
+     const getNumTilesPlaced = () => numTilesPlaced;
+     const incNumTilesPlaced = () => numTilesPlaced++;
+     return { getTiles, getPlacedTiles, placeTile, setDisableClick, getDisableClick, resetBoard, getNumTilesPlaced, incNumTilesPlaced };
 })();
 
 function createPlayer(name) {
@@ -35,45 +46,73 @@ function createPlayer(name) {
 
 }
 
-const playerOne = createPlayer("Player One");
-const playerTwo = createPlayer("Player Two");
-playerOne.setSymbol("X");
-playerTwo.setSymbol("O");
-let whosTurn = playerOne;
-const game = createGame();
 
-game.playGame();
 
-const displayController = (function() {
-     
+const displayController = (function () {
 
+     function display(tile) {
+          tile.textContent = `${whosTurn.getSymbol()}`;
+          whosTurn = whosTurn === playerOne ? playerTwo : playerOne;
+          whosTurnDisplay.textContent = `${whosTurn.name}'s turn`;
+          gameBoard.placeTile(translate(tile), whosTurn.getSymbol());
+     }
+
+     function resetDisplay() {
+          for (let tile of tiles) {
+               tile.textContent = "";
+               whosTurnDisplay.textContent = `${whosTurn.name}'s turn`;
+          }
+     }
+
+     /** Takes a tile as an input and corresponds that to the correct position in a two dimensional array, namely the placedTiles array in gameBoard. For example, if a user presses the bottom right tile in the browser then this function will output [2, 2]. */
+     function translate(tile) {
+          let arrayPosition = [];
+          const classNames = tile.className;
+
+          if (classNames.includes("row-one")) {
+               arrayPosition.push(0);
+          } else if (classNames.includes("row-two")) {
+               arrayPosition.push(1);
+          } else if (classNames.includes("row-three")) {
+               arrayPosition.push([2]);
+          }
+
+          if (classNames.includes("col-one")) {
+               arrayPosition.push(0);
+          } else if (classNames.includes("col-two")) {
+               arrayPosition.push(1);
+          } else if (classNames.includes("col-three")) {
+               arrayPosition.push(2);
+          }
+          return arrayPosition;
+     }
+     return { display, resetDisplay }
 })();
 
-
 function createGame() {
-
      let winner = null;
 
      function playGame() {
           for (let tile of tiles) {
                tile.addEventListener("click", function () {
+                    console.log("click");
                     if (gameBoard.getDisableClick()) {
+                         console.log("disabled");
                          return;
                     } else if (tile.textContent === "") {
-                         tile.textContent = `${whosTurn.getSymbol()}`;
-                         whosTurn = whosTurn === playerOne ? playerTwo : playerOne;
-                         whosTurnDisplay.textContent = `${whosTurn.name}'s turn`;
-                         gameBoard.placeTile(translate(this), whosTurn.getSymbol());
-                         console.log(checkGameState());
-
+                         gameBoard.incNumTilesPlaced();
+                         displayController.display(this);
                          if (checkGameState() === "win") {
-                              winner = whosTurn;
+
+                              winner = whosTurn === playerOne ? playerTwo : playerOne;
+                              console.log(`${winner.name} has won!`);
                               whosTurnDisplay.textContent = `${winner.name} has won!`;
                               gameBoard.setDisableClick(true);
+                         } else if (gameBoard.getNumTilesPlaced() === 9) {
+                              whosTurnDisplay.textContent = "Draw!";
+                              gameBoard.setDisableClick(true);
                          }
-
                     }
-
                });
           }
      }
@@ -147,35 +186,11 @@ function createGame() {
                return "win";
           }
      }
-     /** Takes a tile as an input and corresponds that to the correct position in a two dimensional array, namely the placedTiles array in gameBoard. For example, if a user presses the bottom right tile in the browser then this function will output [2, 2]. */
-     function translate(tile) {
-          let arrayPosition = [];
-          const classNames = tile.className;
-          if (classNames.includes("row-one")) {
-               arrayPosition.push(0);
-          } else if (classNames.includes("row-two")) {
-               arrayPosition.push(1);
-          } else if (classNames.includes("row-three")) {
-               arrayPosition.push([2]);
-          }
-
-          if (classNames.includes("col-one")) {
-               arrayPosition.push(0);
-          } else if (classNames.includes("col-two")) {
-               arrayPosition.push(1);
-          } else if (classNames.includes("col-three")) {
-               arrayPosition.push(2);
-          }
-          //console.log(arrayPosition);
-          return arrayPosition;
-     }
-
      return { playGame, checkGameState };
-
 }
 
-restartBtn.addEventListener("click"), () => {
+restartBtn.addEventListener("click", () => {
      gameBoard.resetBoard();
-     game.playGame();
      gameBoard.setDisableClick(false);
-}
+     displayController.resetDisplay();
+});
